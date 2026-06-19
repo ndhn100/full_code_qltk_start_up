@@ -64,7 +64,6 @@ export default function ThanhVien() {
 
   const showToast = (type, msg) => setToast({ type, message: msg })
 
-  // Fetch – gửi roleId=3 lên API, filter thêm client-side phòng hờ
   const fetchMembers = useCallback(async () => {
     setLoading(true)
     try {
@@ -136,6 +135,13 @@ export default function ThanhVien() {
 
   const handleSaveDone = () => { setTab('danh-sach'); fetchMembers() }
 
+  // Sidebar items — "Tạo tài khoản" has sub-item "Biên soạn" only
+  const sidebarItems = [
+    { key: 'tao', label: 'Tạo tài khoản', sub: true },
+    { key: 'chinh-sua', label: 'Chỉnh sửa tài khoản' },
+    { key: 'phan-cong', label: 'Phân công soạn đề cương' },
+  ]
+
   return (
     <>
       <style>{`
@@ -144,10 +150,33 @@ export default function ThanhVien() {
         .tv-breadcrumb span { color: #005AE0; font-weight: 500; cursor: pointer; }
         .tv-layout { display: flex; gap: 20px; padding: 0 32px 32px; }
 
-        .tv-sidebar { width: 180px; flex-shrink: 0; background: linear-gradient(180deg, #daeef9 0%, #cfe5f9 100%); border-radius: 12px; padding: 16px 12px; box-shadow: 0 2px 10px rgba(0,90,224,0.07); align-self: flex-start; }
-        .tv-sidebar-title { font-size: 14px; font-weight: 800; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid rgba(0,90,224,0.15); }
-        .tv-sidebar-item { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13.5px; color: #005AE0; margin-bottom: 4px; transition: all .18s; }
-        .tv-sidebar-item.active { background: linear-gradient(135deg, #005AE0, #00317A); color: #fff; font-weight: 600; }
+        .tv-sidebar {
+          width: 180px; flex-shrink: 0;
+          background: linear-gradient(180deg, #daeef9 0%, #cfe5f9 100%);
+          border-radius: 12px; padding: 16px 12px;
+          box-shadow: 0 2px 10px rgba(0,90,224,0.07);
+          align-self: flex-start;
+        }
+        .tv-sidebar-title { font-size: 14px; font-weight: 800; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid rgba(0,90,224,0.15); color: #1a2340; }
+        .tv-sidebar-item {
+          padding: 8px 12px; border-radius: 8px; cursor: pointer;
+          font-size: 13.5px; color: #005AE0; margin-bottom: 2px;
+          transition: all .18s; font-weight: 500;
+        }
+        .tv-sidebar-item:hover { background: rgba(0,90,224,0.08); }
+        .tv-sidebar-item.active {
+          background: linear-gradient(135deg, #005AE0, #00317A);
+          color: #fff; font-weight: 600;
+          box-shadow: 0 2px 6px rgba(0,90,224,0.2);
+        }
+        /* Sub-item under Tạo tài khoản */
+        .tv-sub-item {
+          padding: 5px 12px 5px 22px;
+          font-size: 12.5px; color: #005AE0; cursor: pointer;
+          border-radius: 6px; margin-bottom: 2px; transition: all .18s;
+        }
+        .tv-sub-item:hover { background: rgba(0,90,224,0.08); }
+        .tv-sub-item.active { color: #00317A; font-weight: 700; }
 
         .tv-content { flex: 1; min-width: 0; }
         .tv-table-card { background: linear-gradient(160deg, #e8f3fd 0%, #cfe5f9 100%); border-radius: 14px; padding: 20px 22px; box-shadow: 0 2px 16px rgba(0,90,224,0.07); }
@@ -186,20 +215,45 @@ export default function ThanhVien() {
         </div>
 
         <div className="tv-layout">
+          {/* Sidebar */}
           <div className="tv-sidebar">
             <div className="tv-sidebar-title">Nội dung</div>
-            {[
-              { key: 'danh-sach', label: 'Danh sách thành viên' },
-              { key: 'tao',       label: 'Tạo tài khoản' },
-              { key: 'chinh-sua', label: 'Chỉnh sửa tài khoản' },
-              { key: 'phan-cong', label: 'Phân công biên soạn' },
-            ].map(i => (
-              <div key={i.key} className={`tv-sidebar-item ${tab === i.key ? 'active' : ''}`} onClick={() => setTab(i.key)}>
-                {i.label}
-              </div>
-            ))}
+
+            {/* Tạo tài khoản */}
+            <div
+              className={`tv-sidebar-item${tab === 'tao' ? ' active' : ''}`}
+              onClick={() => setTab('tao')}
+            >
+              Tạo tài khoản
+            </div>
+            {/* Sub-item: Biên soạn (only) */}
+            <div
+              className={`tv-sub-item${tab === 'tao' ? ' active' : ''}`}
+              onClick={() => setTab('tao')}
+            >
+              Biên soạn
+            </div>
+
+            {/* Chỉnh sửa tài khoản */}
+            <div
+              className={`tv-sidebar-item${tab === 'chinh-sua' ? ' active' : ''}`}
+              onClick={() => setTab('chinh-sua')}
+              style={{ marginTop: 4 }}
+            >
+              Chỉnh sửa tài khoản
+            </div>
+
+            {/* Phân công soạn đề cương */}
+            <div
+              className={`tv-sidebar-item${tab === 'phan-cong' ? ' active' : ''}`}
+              onClick={() => setTab('phan-cong')}
+              style={{ marginTop: 4 }}
+            >
+              Phân công soạn đề cương
+            </div>
           </div>
 
+          {/* Content */}
           <div className="tv-content">
             {tab === 'danh-sach' && (
               loading ? (
@@ -269,12 +323,6 @@ export default function ThanhVien() {
                         </table>
                       </div>
 
-                      {filtered.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '20px', color: '#64748b', fontSize: '14px' }}>
-                          Không tìm thấy thành viên phù hợp
-                        </div>
-                      )}
-
                       <div className="tv-pagination">
                         <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>← Trước</button>
                         <span>Trang {page} / {totalPages}</span>
@@ -288,7 +336,7 @@ export default function ThanhVien() {
 
             {tab === 'tao'       && <TaoTaiKhoan onSave={handleSaveDone} onCancel={() => setTab('danh-sach')} showToast={showToast} />}
             {tab === 'chinh-sua' && <ChinhSuaTaiKhoan member={selectedMember} danhSach={allMembers} onSave={handleSaveDone} onCancel={() => setTab('danh-sach')} showToast={showToast} />}
-            {tab === 'phan-cong' && <PhanCongSoanDeCuong onSave={handleSaveDone} onCancel={() => setTab('danh-sach')} />}
+            {tab === 'phan-cong' && <PhanCongSoanDeCuong onSave={handleSaveDone} onCancel={() => setTab('danh-sach')} showToast={showToast} />}
           </div>
         </div>
       </div>
