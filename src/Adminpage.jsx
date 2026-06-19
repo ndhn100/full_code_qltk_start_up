@@ -88,7 +88,7 @@ function Modal({ title, form, setForm, onClose, onSubmit, submitLabel, isSubmitt
           <span style={{ fontWeight: 700, fontSize: 17, color: "#111827" }}>{title}</span>
           <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", color: "#6B7280" }}>×</button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 20px", marginBottom: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 20px", marginBottom: 26 }}>
           <div>
             <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Tên đăng nhập</label>
             <input style={inputStyle} value={form.username} onChange={e => setForm({ ...form, username: e.target.value })} placeholder="VD: ql.nguyenvana" />
@@ -112,45 +112,8 @@ function Modal({ title, form, setForm, onClose, onSubmit, submitLabel, isSubmitt
             <input style={inputStyle} value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="VD: nguyenvana@uni.edu.vn" />
           </div>
           <div>
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Họ tên</label>
+            <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Họ tên người dùng</label>
             <input style={inputStyle} value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })} placeholder="VD: Nguyễn Văn A" />
-          </div>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "14px 14px", marginBottom: 26 }}>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Trình độ chuyên môn</label>
-            <div style={{ position: "relative" }}>
-              <select style={{ ...inputStyle, appearance: "none", paddingRight: 28 }}
-                value={form.trinhDoChuyenMon}
-                onChange={e => setForm({ ...form, trinhDoChuyenMon: e.target.value })}>
-                <option>Đại học</option>
-                <option>Thạc sĩ</option>
-                <option>Tiến sĩ</option>
-              </select>
-              <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 11, color: "#9CA3AF" }}>▼</span>
-            </div>
-          </div>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Học hàm</label>
-            <input style={inputStyle} value={form.hocHam} onChange={e => setForm({ ...form, hocHam: e.target.value })} placeholder="VD: GS, PGS" />
-          </div>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Học vị</label>
-            <input style={inputStyle} value={form.hocVi} onChange={e => setForm({ ...form, hocVi: e.target.value })} placeholder="VD: TS, ThS" />
-          </div>
-        </div>
-        <div style={{ marginBottom: 26 }}>
-          <label style={{ fontSize: 13, fontWeight: 500, color: "#374151", display: "block", marginBottom: 5 }}>Mã chương trình đào tạo</label>
-          <div style={{ position: "relative" }}>
-            <select style={{ ...inputStyle, appearance: "none", paddingRight: 28 }}
-              value={form.programs}
-              onChange={e => setForm({ ...form, programs: e.target.value })}>
-              <option value="">-- Chọn chương trình --</option>
-              {programsList.map(p => (
-                <option key={p.maCTDT} value={p.maCTDT}>{p.maCTDT} – {p.tenCTDT}</option>
-              ))}
-            </select>
-            <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 11, color: "#9CA3AF" }}>▼</span>
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
