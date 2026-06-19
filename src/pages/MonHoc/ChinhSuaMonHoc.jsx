@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { updateSubject } from "../../services/subjectService";
 
+const DEFAULT_CTDT = import.meta.env.VITE_DEFAULT_CTDT ?? "";
+
 export default function ChinhSuaMonHoc({
   danhSach = [],
   onSaveSuccess,
@@ -13,9 +15,6 @@ export default function ChinhSuaMonHoc({
     ten: "",
     lyThuyet: "",
     thucHanh: "",
-    batDau: "",
-    ketThuc: "",
-    chuongTrinhDaoTaoMa: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -23,15 +22,7 @@ export default function ChinhSuaMonHoc({
 
   useEffect(() => {
     if (!selectedMa) {
-      setForm({
-        ma: "",
-        ten: "",
-        lyThuyet: "",
-        thucHanh: "",
-        batDau: "",
-        ketThuc: "",
-        chuongTrinhDaoTaoMa: "",
-      });
+      setForm({ ma: "", ten: "", lyThuyet: "", thucHanh: "" });
       return;
     }
 
@@ -42,9 +33,6 @@ export default function ChinhSuaMonHoc({
         ten: found.ten,
         lyThuyet: found.lyThuyet ?? "",
         thucHanh: found.thucHanh ?? "",
-        batDau: found.batDau ?? "",
-        ketThuc: found.ketThuc ?? "",
-        chuongTrinhDaoTaoMa: found.chuongTrinhDaoTaoMa ?? "",
       });
   }, [selectedMa, danhSach]);
 
@@ -70,7 +58,7 @@ export default function ChinhSuaMonHoc({
         tenMonHoc: form.ten,
         soTinChiLyThuyet: Number(form.lyThuyet),
         soTinChiThucHanh: Number(form.thucHanh),
-        chuongTrinhDaoTaoMa: form.chuongTrinhDaoTaoMa,
+        chuongTrinhDaoTaoMa: DEFAULT_CTDT,
       });
 
       onSaveSuccess(form.ten);
@@ -98,24 +86,6 @@ export default function ChinhSuaMonHoc({
       type: "number",
       disabled: false,
     },
-    {
-      label: "Thời gian bắt đầu",
-      name: "batDau",
-      type: "date",
-      disabled: false,
-    },
-    {
-      label: "Thời gian kết thúc",
-      name: "ketThuc",
-      type: "date",
-      disabled: false,
-    },
-    {
-      label: "Mã CTĐT",
-      name: "chuongTrinhDaoTaoMa",
-      type: "text",
-      disabled: false,
-    },
   ];
 
   return (
@@ -134,6 +104,12 @@ export default function ChinhSuaMonHoc({
           font-weight: 800;
           color: #1a2340;
           margin-bottom: 22px;
+        }
+
+        .api-err {
+          color: #dc2626; font-size: 13px; margin-bottom: 16px;
+          padding: 8px 14px; background: #fef2f2;
+          border-radius: 8px; border: 1px solid #fca5a5;
         }
 
         .select-row {

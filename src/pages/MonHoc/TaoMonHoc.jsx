@@ -6,9 +6,6 @@ const EMPTY = {
   ma: "",
   lyThuyet: "",
   thucHanh: "",
-  batDau: "",
-  ketThuc: "",
-  chuongTrinhDaoTaoMa: "",
 };
 
 const DEFAULT_CTDT = import.meta.env.VITE_DEFAULT_CTDT ?? "";
@@ -29,10 +26,6 @@ export default function TaoMonHoc({ onSaveSuccess, onCancel }) {
     if (!form.ma.trim()) e.ma = "Vui lòng nhập mã môn học";
     if (!form.lyThuyet) e.lyThuyet = "Vui lòng nhập số tín chỉ lý thuyết";
     if (!form.thucHanh) e.thucHanh = "Vui lòng nhập số tín chỉ thực hành";
-    if (!form.batDau) e.batDau = "Vui lòng chọn thời gian bắt đầu";
-    if (!form.ketThuc) e.ketThuc = "Vui lòng chọn thời gian kết thúc";
-    if (!form.chuongTrinhDaoTaoMa)
-      e.chuongTrinhDaoTaoMa = "Vui lòng nhập mã CTĐT";
     return e;
   };
 
@@ -50,7 +43,7 @@ export default function TaoMonHoc({ onSaveSuccess, onCancel }) {
         tenMonHoc: form.ten,
         soTinChiLyThuyet: Number(form.lyThuyet),
         soTinChiThucHanh: Number(form.thucHanh),
-        chuongTrinhDaoTaoMa: form.chuongTrinhDaoTaoMa,
+        chuongTrinhDaoTaoMa: DEFAULT_CTDT,
       });
 
       setForm(EMPTY);
@@ -69,14 +62,6 @@ export default function TaoMonHoc({ onSaveSuccess, onCancel }) {
     { label: "Mã môn học", name: "ma", type: "text", col: 2 },
     { label: "Số tín chỉ lý thuyết", name: "lyThuyet", type: "number", col: 1 },
     { label: "Số tín chỉ thực hành", name: "thucHanh", type: "number", col: 2 },
-    { label: "Thời gian bắt đầu", name: "batDau", type: "date", col: 1 },
-    { label: "Thời gian kết thúc", name: "ketThuc", type: "date", col: 2 },
-    {
-      label: "Mã CTĐT",
-      name: "chuongTrinhDaoTaoMa",
-      type: "text",
-      col: 1,
-    },
   ];
 
   return (
